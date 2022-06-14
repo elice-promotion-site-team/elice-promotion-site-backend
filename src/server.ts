@@ -23,15 +23,30 @@ const server = app.listen(PORT, () => console.log(`server is running ${PORT}`));
 // // socket
 const io = new Server(server);
 
-io.on('connection', (socket) => {
+io.sockets.on('connection', (socket) => {
   console.log('socket 접속');
 
+  socket.on('newUser', (newUser) => {
+    console.log(`${newUser}님이 접속하였습니다.`);
+
+    (socket as any).name = newUser;
+
+    io.emit('update', { type: 'connect', name: 'SERVER', message: `${newUser}님이 접속하였습니다.` });
+  });
+
   socket.on('chat message', (msg) => {
-    io.emit('chat message', msg);
-    console.log('message: ' + msg);
+    msg.name = (socket as any).name;
+    // console.log(msg);
+    socket.broadcast.emit('chat message', msg);
+    // socket.emit('chat message', msg);
   });
 
   socket.on('disconnect', () => {
-    console.log('접속 종료');
+    console.log(`${(socket as any).name}님이 나가셨습니다.`);
+    socket.broadcast.emit('update', {
+      type: 'disconnect',
+      name: 'SERVER',
+      message: `${(socket as any).name}님이 접속하였습니다.`,
+    });
   });
 });
