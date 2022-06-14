@@ -2,21 +2,36 @@ import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
 import { Server } from 'socket.io';
-import http from 'http';
+import { chatRouter } from './routes';
 
 const app = express();
 app.use(cors());
 
 const PORT = process.env.SERVER_PORT;
 
+app.use('/css', express.static('./static/css'));
+app.use('/ts', express.static('./static/ts'));
+
 app.get('/', (req: express.Request, res: express.Response) => {
   res.send('test');
 });
 
+app.use('/chat', chatRouter);
+
 const server = app.listen(PORT, () => console.log(`server is running ${PORT}`));
 
+// // socket
 const io = new Server(server);
 
 io.on('connection', (socket) => {
-  console.log('socket 실행');
+  console.log('socket 접속');
+
+  socket.on('chat message', (msg) => {
+    io.emit('chat message', msg);
+    console.log('message: ' + msg);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('접속 종료');
+  });
 });
