@@ -34,11 +34,13 @@ io.sockets.on('connection', (socket) => {
     io.emit('update', { type: 'connect', name: 'SERVER', message: `${newUser}님이 접속하였습니다.` });
   });
 
-  socket.on('chat message', (msg) => {
-    msg.name = (socket as any).name;
-    // console.log(msg);
-    socket.broadcast.emit('chat message', msg);
-    // socket.emit('chat message', msg);
+  socket.on('chat message', (msg: any) => {
+    const name = (socket as any).name;
+    console.log(msg);
+    // msg.name = name;
+    // socket.broadcast.emit('chat message', msg);
+    socket.broadcast.emit('chat message', `${msg.name}: ${msg.msg}`);
+    socket.emit('chat message', `${msg.name}: ${msg.msg}`);
   });
 
   socket.on('disconnect', () => {
