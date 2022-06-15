@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose';
 
-const GuestBookSchema = new Schema(
+const GuestbookSchema = new Schema(
   {
     nickname: {
       type: String,
@@ -12,9 +12,9 @@ const GuestBookSchema = new Schema(
     },
   },
   {
-    collection: 'comments',
+    collection: 'guestbooks',
     timestamps: true,
   },
 );
 
-export { GuestBookSchema };
+export { GuestbookSchema };

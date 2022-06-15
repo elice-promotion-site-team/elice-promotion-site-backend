@@ -1,14 +1,14 @@
 import { model } from 'mongoose';
-import { GuestBookSchema } from '../schemas/guestbook-schema';
+import { GuestbookSchema } from '../schemas/guestbook-schema';
 
-const GuestBook = model('comments', GuestBookSchema);
+const Guestbook = model('guestbooks', GuestbookSchema);
 
-export interface GuestBookInfo {
+export interface GuestbookInfo {
   nickname: string;
   comment: string;
 }
 
-export interface GuestBookData {
+export interface GuestbookData {
   _id: string;
   nickname: string;
   comment: string;
@@ -21,36 +21,41 @@ interface ToUpdate {
   };
 }
 
-export class GuestBookModel {
-  async create(guestbookInfo: GuestBookInfo): Promise<GuestBookData> {
-    const createdNewGuestBook = await GuestBook.create(guestbookInfo);
-    return createdNewGuestBook;
+export class GuestbookModel {
+  async create(guestbookInfo: GuestbookInfo): Promise<GuestbookData> {
+    const createdNewGuestbook = await Guestbook.create(guestbookInfo);
+    return createdNewGuestbook;
   }
 
-  async findAll(): Promise<GuestBookData[]> {
-    const guestbooks = await GuestBook.find({});
+  async findAll(): Promise<GuestbookData[]> {
+    const guestbooks = await Guestbook.find({});
     return guestbooks;
   }
 
-  async findById(_id: string): Promise<GuestBookData> {
-    const guestbook = await GuestBook.findOne({ _id });
+  async findById(_id: string): Promise<GuestbookData> {
+    const guestbook = await Guestbook.findOne({ _id });
     return guestbook;
   }
 
-  async update({ _id, update }: ToUpdate): Promise<GuestBookData> {
+  async findByNickname(nickname: string): Promise<GuestbookData> {
+    const guestbook = await Guestbook.findOne({ nickname });
+    return guestbook;
+  }
+
+  async update({ _id, update }: ToUpdate): Promise<GuestbookData> {
     const filter = { _id };
     const option = { returnOriginal: false };
 
-    const updatedGuestBook = await GuestBook.findOneAndUpdate(filter, update, option);
-    return updatedGuestBook;
+    const updatedGuestbook = await Guestbook.findOneAndUpdate(filter, update, option);
+    return updatedGuestbook;
   }
 
   async deleteById(_id: string): Promise<{ deletedCount: number }> {
-    const result = await GuestBook.deleteOne({ _id });
+    const result = await Guestbook.deleteOne({ _id });
     return result;
   }
 }
 
-const guestbookModel = new GuestBookModel();
+const guestbookModel = new GuestbookModel();
 
 export { guestbookModel };
