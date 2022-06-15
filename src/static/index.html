@@ -89,6 +89,13 @@
         messages.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight);
       });
+
+      socket.on('update', (data) => {
+        const item = document.createElement('li');
+        item.textContent = data;
+        messages.appendChild(item);
+        window.scrollTo(0, document.body.scrollHeight);
+      });
     </script>
   </body>
 </html>

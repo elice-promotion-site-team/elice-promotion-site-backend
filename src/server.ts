@@ -27,28 +27,21 @@ io.sockets.on('connection', (socket) => {
   console.log('socket 접속');
 
   socket.on('newUser', (newUser) => {
-    console.log(`${newUser}님이 접속하였습니다.`);
-
+    socket.emit('update', `${newUser}(나)님이 접속했습니다.`);
+    socket.broadcast.emit('update', `${newUser}님이 접속했습니다.`);
     (socket as any).name = newUser;
-
-    io.emit('update', { type: 'connect', name: 'SERVER', message: `${newUser}님이 접속하였습니다.` });
   });
 
   socket.on('chat message', (msg: any) => {
     const name = (socket as any).name;
     console.log(msg);
-    // msg.name = name;
-    // socket.broadcast.emit('chat message', msg);
+    // 다른사람 화면에 보여지는 메세지
     socket.broadcast.emit('chat message', `${msg.name}: ${msg.msg}`);
-    socket.emit('chat message', `${msg.name}: ${msg.msg}`);
+    // 내 화면에 보여지는 메세지
+    socket.emit('chat message', `나: ${msg.msg}`);
   });
 
   socket.on('disconnect', () => {
-    console.log(`${(socket as any).name}님이 나가셨습니다.`);
-    socket.broadcast.emit('update', {
-      type: 'disconnect',
-      name: 'SERVER',
-      message: `${(socket as any).name}님이 접속하였습니다.`,
-    });
+    socket.broadcast.emit('update', `${(socket as any).name}님이 나가셨습니다.`);
   });
 });
