@@ -23,7 +23,7 @@ function loginRequired(req: Request, res: Response, next: NextFunction) {
     const jwtDecoded = jwt.verify(userToken, secretKey) as JwtPayload;
 
     const userId = jwtDecoded.userId;
-    req.currentUserId = userId;
+    // req.currentUserId = userId;
 
     next();
   } catch (error) {
