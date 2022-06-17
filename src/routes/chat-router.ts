@@ -1,5 +1,4 @@
 import express, { Router } from 'express';
-import fs from 'fs';
 import path from 'path';
 const chatRouter = Router();
 
