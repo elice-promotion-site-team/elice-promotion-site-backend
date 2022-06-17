@@ -68,7 +68,6 @@
       socket.on('connect', () => {
         socket.emit('newUser', name);
       });
-
       var messages = document.getElementById('messages');
       var form = document.getElementById('form');
       var input = document.getElementById('input');
@@ -91,9 +90,10 @@
 
       socket.on('update', (data) => {
         const item = document.createElement('li');
-        item.textContent = data;
+        item.textContent = data.msg;
         messages.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight);
+        console.log(data.msg);
       });
     </script>
   </body>

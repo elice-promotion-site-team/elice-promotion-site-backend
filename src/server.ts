@@ -1,9 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
-import { Server } from 'socket.io';
 import { chatRouter } from './routes';
-import webSocket from './static/ts';
+import webSocket from './socket';
 
 const app = express();
 app.use(cors());
