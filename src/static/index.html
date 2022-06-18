@@ -81,20 +81,20 @@
         }
       });
 
-      socket.on('chat message', function (msg) {
+      // 'chat message'로 emit된 메세지를 받음
+      socket.on('chat message', function (data) {
         var item = document.createElement('li');
-        item.textContent = msg;
+        item.textContent = `${data.msg} ${data.time}`;
         messages.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight);
       });
 
+      // 'update'로 emit된 메세지를 받음
       socket.on('update', (data) => {
         const item = document.createElement('li');
-        item.textContent = data.msg;
+        item.textContent = `${data.msg} ${data.time}`;
         messages.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight);
-        console.log(data.msg);
-        console.log(data.clientsList);
       });
     </script>
   </body>
