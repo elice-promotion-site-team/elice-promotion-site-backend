@@ -1,4 +1,5 @@
 import { Server } from 'socket.io';
+import { chatService } from './services';
 
 function webSocket(server: any) {
   const io = new Server(server);
@@ -40,7 +41,7 @@ function webSocket(server: any) {
         msg: `${newUser}님이 접속했습니다.`,
         clientsCount,
         clientsList,
-        now,
+        time: now,
       });
     });
 
@@ -66,6 +67,8 @@ function webSocket(server: any) {
         msg: `나: ${data.msg}`,
         time: now,
       });
+
+      chatService.addChat({ nickname: data.name, message: data.msg, time: now });
     });
 
     // 접속자 채팅 종료

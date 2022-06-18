@@ -9,9 +9,6 @@ app.use(cors());
 
 const PORT = process.env.SERVER_PORT;
 
-app.use('/css', express.static('./static/css'));
-app.use('/ts', express.static('./static/ts'));
-
 app.get('/', (req: express.Request, res: express.Response) => {
   res.send('test');
 });
