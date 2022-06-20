@@ -1,4 +1,4 @@
-import { model } from 'mongoose';
+import { model, Types, Document } from 'mongoose';
 import { ChatSchema } from '../schemas/chat-schema';
 
 const Chat = model('chats', ChatSchema);
@@ -9,8 +9,7 @@ export interface ChatInfo {
   time: string;
 }
 
-export interface ChatData {
-  _id: string;
+export interface ChatData extends Document<Types.ObjectId> {
   nickname: string;
   message: string;
   time: string;
@@ -19,12 +18,12 @@ export interface ChatData {
 export class ChatModel {
   async create(chatInfo: ChatInfo): Promise<ChatData> {
     const createdNewChat = await Chat.create(chatInfo);
-    return createdNewChat as any; // 타입 에러 Type 'ObjectId' is not assignable to type 'string'.
+    return createdNewChat; // 타입 에러 Type 'ObjectId' is not assignable to type 'string'.
   }
 
   async findAll(): Promise<ChatData[]> {
     const chats = await Chat.find({});
-    return chats as any; // 타입 에러 Type 'ObjectId' is not assignable to type 'string'.
+    return chats; // 타입 에러 Type 'ObjectId' is not assignable to type 'string'.
   }
 }
 
