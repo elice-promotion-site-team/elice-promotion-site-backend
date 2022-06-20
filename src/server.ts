@@ -1,8 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
-import { guestbookRouter } from './routes';
+import { guestbookRouter, chatRouter } from './routes';
 import { errorHandler } from './middlewares';
+import webSocket from './socket';
 
 const app = express();
 app.use(cors());
@@ -16,7 +17,10 @@ app.use(express.urlencoded({ extended: false }));
 const PORT = process.env.SERVER_PORT;
 
 app.use('/api', guestbookRouter);
-
+app.use('/chat', chatRouter);
 app.use(errorHandler);
 
-app.listen(PORT);
+const server = app.listen(PORT, () => console.log(`server is running ${PORT}`));
+
+// // socket
+webSocket(server);

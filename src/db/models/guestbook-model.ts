@@ -1,4 +1,4 @@
-import { model } from 'mongoose';
+import { model, Types, Document } from 'mongoose';
 import { GuestbookSchema } from '../schemas/guestbook-schema';
 
 const Guestbook = model('guestbooks', GuestbookSchema);
@@ -8,8 +8,7 @@ export interface GuestbookInfo {
   comment: string;
 }
 
-export interface GuestbookData {
-  _id: string;
+export interface GuestbookData extends Document<Types.ObjectId> {
   nickname: string;
   comment: string;
 }
@@ -34,12 +33,12 @@ export class GuestbookModel {
 
   async findById(_id: string): Promise<GuestbookData> {
     const guestbook = await Guestbook.findOne({ _id });
-    return guestbook;
+    return guestbook as any;
   }
 
   async findByNickname(nickname: string): Promise<GuestbookData> {
     const guestbook = await Guestbook.findOne({ nickname });
-    return guestbook;
+    return guestbook as any;
   }
 
   async update({ _id, update }: ToUpdate): Promise<GuestbookData> {
@@ -47,7 +46,7 @@ export class GuestbookModel {
     const option = { returnOriginal: false };
 
     const updatedGuestbook = await Guestbook.findOneAndUpdate(filter, update, option);
-    return updatedGuestbook;
+    return updatedGuestbook as any;
   }
 
   async deleteById(_id: string): Promise<{ deletedCount: number }> {
