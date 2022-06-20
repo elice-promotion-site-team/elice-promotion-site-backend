@@ -18,12 +18,12 @@ export interface ChatData extends Document<Types.ObjectId> {
 export class ChatModel {
   async create(chatInfo: ChatInfo): Promise<ChatData> {
     const createdNewChat = await Chat.create(chatInfo);
-    return createdNewChat; // 타입 에러 Type 'ObjectId' is not assignable to type 'string'.
+    return createdNewChat;
   }
 
   async findAll(): Promise<ChatData[]> {
     const chats = await Chat.find({});
-    return chats; // 타입 에러 Type 'ObjectId' is not assignable to type 'string'.
+    return chats;
   }
 }
 
