@@ -16,10 +16,6 @@ app.use(express.urlencoded({ extended: false }));
 
 const PORT = process.env.SERVER_PORT;
 
-app.get('/', (req: express.Request, res: express.Response) => {
-  res.send('test');
-});
-
 app.use('/api', guestbookRouter);
 app.use('/chat', chatRouter);
 app.use(errorHandler);
