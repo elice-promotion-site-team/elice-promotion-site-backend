@@ -1,9 +1,9 @@
 import passport from 'passport';
 
-const jwt = require('./strategies/jwt');
-const google = require('./strategies/google');
+import { jwt } from './strategies/jwt';
+import { google } from './strategies/google';
 
-module.exports = () => {
+export function usePassport() {
   passport.use(jwt);
   passport.use(google);
-};
+}

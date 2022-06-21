@@ -26,7 +26,7 @@ async function findOrCreateUser(name: string, email: string) {
   return created;
 }
 
-module.exports = new Strategy(
+export const google = new Strategy(
   config,
   async (accessToken: string, refreshToken: string, profile: Profile, done: VerifyCallback) => {
     const { email, name } = profile._json;
