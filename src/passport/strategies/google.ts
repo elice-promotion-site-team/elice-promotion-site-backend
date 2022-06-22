@@ -30,7 +30,6 @@ export const google = new Strategy(
   config,
   async (accessToken: string, refreshToken: string, profile: Profile, done: VerifyCallback) => {
     const { email, name } = profile._json;
-
     try {
       const user = await findOrCreateUser(name!, email!);
       done(null, {

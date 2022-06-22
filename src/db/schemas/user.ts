@@ -6,9 +6,9 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
-    nickname: {
+    name: {
       type: String,
-      required: true,
+      required: false,
     },
     password: {
       type: String,
