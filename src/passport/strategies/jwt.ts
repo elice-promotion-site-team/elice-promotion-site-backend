@@ -1,6 +1,6 @@
 import { Request } from 'express';
 import { Strategy } from 'passport-jwt';
-const { secret } = require('../../utils/jwt');
+import { secret } from '../../utils/jwt';
 
 const cookieExtractor = (req: Request) => {
   const { token } = req.cookies;

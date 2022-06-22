@@ -23,7 +23,7 @@ const PORT = process.env.SERVER_PORT;
 
 app.use(passport.initialize());
 
-// app.use(getUserFromJWT);
+app.use(getUserFromJWT);
 
 app.use('/api', guestbookRouter);
 app.use('/auth', authRouter);

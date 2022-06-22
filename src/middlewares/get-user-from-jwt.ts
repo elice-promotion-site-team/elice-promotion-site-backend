@@ -1,12 +1,12 @@
-import { Request, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
+import passport from 'passport';
 
-const passport = require('passport');
-
-export const getUserFromJWT = (req: Request, res: Response, next: NextFunction) => {
-  if (!req.cookies.token) {
+function getUserFromJWT(req: Request, res: Response, next: NextFunction) {
+  if (req.cookies.token) {
+    return passport.authenticate('jwt', { session: false })(req, res, next);
+  } else {
     next();
-    return;
   }
+}
 
-  return passport.authenticate('jwt', { session: false })(req, res, next);
-};
+export { getUserFromJWT };

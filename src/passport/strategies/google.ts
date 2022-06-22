@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { Strategy, StrategyOptions, Profile, VerifyCallback } from 'passport-google-oauth20';
-const { User } = require('../../db/models');
+import { User } from '../../db';
 
 const config: StrategyOptions = {
   clientID: process.env.CLIENT_ID as string, // clientId 설정하기
@@ -38,8 +38,8 @@ export const google = new Strategy(
         email: user.email,
         name: user.name,
       });
-    } catch (e) {
-      //   done(e, null);
+    } catch (e: any) {
+      done(e, undefined);
     }
   },
 );
