@@ -5,10 +5,10 @@ class QuizService {
 
   async addQuiz(quizInfo: QuizInfo): Promise<QuizData> {
     const { quizNumber } = quizInfo;
-
     const quiz = await this.quizModel.findByQuizNumber(quizNumber);
-    // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (quiz) {
+    // db에 이미 존재하는 경우, 에러 메시지 반환
+    console.log(quiz.join(''));
+    if (quiz.length > 0) {
       throw new Error('이 퀴즈 번호는 현재 사용중입니다. 다른 번호를 입력해 주세요.');
     }
 
@@ -33,6 +33,7 @@ class QuizService {
 
   async setQuiz(quizNumber: number, update: Partial<QuizInfo>): Promise<QuizData> {
     // 업데이트 진행
+
     const updatedQuiz = await this.quizModel.update({ quizNumber, update });
 
     return updatedQuiz;

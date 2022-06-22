@@ -5,12 +5,14 @@ const Quiz = model('quizzes', QuizSchema);
 
 export interface QuizInfo {
   quizNumber: number;
+  quizName: string;
   corrected: number;
   solved: number;
 }
 
 export interface QuizData extends Document<Types.ObjectId> {
   quizNumber: number;
+  quizName: string;
   corrected: number;
   solved: number;
 }
@@ -18,7 +20,11 @@ export interface QuizData extends Document<Types.ObjectId> {
 interface ToUpdate {
   quizNumber: number;
   update: {
-    [key: number]: number;
+    // [key: number]: number;
+    quizNumber?: number;
+    quizName?: string;
+    corrected?: number;
+    solved?: number;
   };
 }
 
@@ -34,8 +40,8 @@ export class QuizModel {
   }
 
   async findByQuizNumber(quizNumber: Number): Promise<QuizData[]> {
-    const quizzes = await Quiz.find({ quizNumber });
-    return quizzes;
+    const quiz = await Quiz.find({ quizNumber });
+    return quiz;
   }
 
   async update({ quizNumber, update }: ToUpdate): Promise<QuizData> {

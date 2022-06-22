@@ -16,7 +16,7 @@ quizRouter.get('/quizzes', async (req, res, next) => {
   }
 });
 
-quizRouter.get('/quiz/:quizNumber', async (req, res, next) => {
+quizRouter.get('/:quizNumber', async (req, res, next) => {
   try {
     const quizNumber = Number(req.params.quizNumber);
     const quizData = await quizService.getQuizDataByQuizNumber(quizNumber);
@@ -27,10 +27,21 @@ quizRouter.get('/quiz/:quizNumber', async (req, res, next) => {
   }
 });
 
-quizRouter.patch('/quiz/:quizNumber', async (req, res, next) => {
+quizRouter.post('/', async (req, res, next) => {
+  try {
+    const quizInfo = req.body;
+    const newQuiz = await quizService.addQuiz(quizInfo);
+    res.status(201).json(newQuiz);
+  } catch (error) {
+    next(error);
+  }
+});
+
+quizRouter.patch('/:quizNumber', async (req, res, next) => {
   try {
     const quizNumber = Number(req.params.quizNumber);
     const update = req.body;
+    console.log(update);
 
     const updatedQuiz = await quizService.setQuiz(quizNumber, update);
     res.status(200).json(updatedQuiz);
