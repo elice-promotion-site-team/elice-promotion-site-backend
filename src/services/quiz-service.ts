@@ -1,6 +1,6 @@
 import { quizModel, QuizModel, QuizInfo, QuizData } from '../db';
 
-class ChatService {
+class QuizService {
   constructor(private quizModel: QuizModel) {}
 
   async addQuiz(quizInfo: QuizInfo): Promise<QuizData> {
@@ -38,3 +38,7 @@ class ChatService {
     return updatedQuiz;
   }
 }
+
+const quizService = new QuizService(quizModel);
+
+export { quizService };
