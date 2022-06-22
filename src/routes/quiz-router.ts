@@ -41,7 +41,6 @@ quizRouter.patch('/:quizNumber', async (req, res, next) => {
   try {
     const quizNumber = Number(req.params.quizNumber);
     const update = req.body;
-    console.log(update);
 
     const updatedQuiz = await quizService.setQuiz(quizNumber, update);
     res.status(200).json(updatedQuiz);
