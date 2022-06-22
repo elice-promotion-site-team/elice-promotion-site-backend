@@ -11,7 +11,7 @@ function errorHandler(error: Error, req: Request, res: Response, next: NextFunct
       res.status(404);
       break;
     case 'NotAcceptable':
-      res.status(404);
+      res.status(406);
       break;
     case 'Conflict':
       res.status(409);
