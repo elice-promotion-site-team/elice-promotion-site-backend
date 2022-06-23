@@ -1,5 +1,5 @@
 import { model, Types, Document } from 'mongoose';
-import { QuizSchema } from '../schemas/quiz-schema';
+import { QuizSchema } from '../schemas/quiz';
 
 const Quiz = model('quizzes', QuizSchema);
 

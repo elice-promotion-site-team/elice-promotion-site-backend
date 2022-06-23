@@ -1,5 +1,4 @@
 export * from './guestbook-service';
-export * from './chat-service';
-export * from './quiz-service';
+export * from './chat';
+export * from './quiz';
 export * from './user';
-
