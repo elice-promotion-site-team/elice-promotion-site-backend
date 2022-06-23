@@ -14,10 +14,6 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
-    passwordReset: {
-      type: Boolean,
-      default: false,
-    },
   },
   {
     collection: 'users',

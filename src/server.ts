@@ -3,7 +3,7 @@ import cors from 'cors';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import 'dotenv/config';
-import { guestbookRouter, authRouter } from './routes';
+import { guestbookRouter, userRouter, authRouter } from './routes';
 import { errorHandler, getUserFromJWT } from './middlewares';
 import { usePassport } from './passport';
 
@@ -26,6 +26,7 @@ app.use(passport.initialize());
 app.use(getUserFromJWT);
 
 app.use('/api', guestbookRouter);
+app.use('/api', userRouter);
 app.use('/auth', authRouter);
 
 app.use(errorHandler);
