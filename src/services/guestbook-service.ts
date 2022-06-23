@@ -10,7 +10,9 @@ class GuestbookService {
     // 이름 중복 확인
     const guestbook = await this.guestbookModel.findByNickname(nickname);
     if (guestbook) {
-      throw new Error('이 이름은 현재 사용중입니다. 다른 이름을 입력해 주세요.');
+      const error = new Error('이 이름은 현재 사용중입니다. 다른 이름을 입력해 주세요.');
+      error.name = 'Conflict';
+      throw error;
     }
 
     // db에 저장
@@ -29,7 +31,9 @@ class GuestbookService {
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!guestbook) {
-      throw new Error('해당 id의 방명록은 없습니다. 다시 한 번 확인해 주세요.');
+      const error = new Error('해당 id의 방명록이 없습니다. 다시 한 번 확인해 주세요.');
+      error.name = 'NotFound';
+      throw error;
     }
 
     return guestbook;
@@ -40,7 +44,9 @@ class GuestbookService {
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!guestbook) {
-      throw new Error('해당 이름의 방명록은 없습니다. 다시 한 번 확인해 주세요.');
+      const error = new Error('해당 이름의 방명록이 없습니다. 다시 한 번 확인해 주세요.');
+      error.name = 'NotFound';
+      throw error;
     }
 
     return guestbook;
