@@ -1,16 +1,14 @@
+import { ObjectId } from 'mongoose';
 import { User } from '../db';
 
 interface UserInfo {
   email: string;
-  name: string;
+  name?: string;
   password: string;
 }
 
-interface UserData {
-  _id: string;
-  email: string;
-  name: string;
-  password: string;
+interface UserData extends UserInfo {
+  _id: any;
 }
 
 class UserService {
@@ -21,7 +19,9 @@ class UserService {
     // 이름 중복 확인
     const user = await User.findOne({ name });
     if (user) {
-      throw new Error('이 이름은 현재 사용중입니다. 다른 이름을 입력해 주세요.');
+      const error = new Error('이 이름은 현재 사용중입니다. 다른 이름을 입력해 주세요.');
+      error.name = 'Conflict';
+      throw error;
     }
 
     // db에 저장
@@ -40,7 +40,9 @@ class UserService {
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!user) {
-      throw new Error('해당 id의 사용자는 없습니다. 다시 한 번 확인해 주세요.');
+      const error = new Error('해당 id의 사용자가 없습니다. 다시 한 번 확인해 주세요.');
+      error.name = 'NotFound';
+      throw error;
     }
 
     return user;
@@ -51,7 +53,9 @@ class UserService {
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!user) {
-      throw new Error('해당 이름의 사용자는 없습니다. 다시 한 번 확인해 주세요.');
+      const error = new Error('해당 이름의 사용자가 없습니다. 다시 한 번 확인해 주세요.');
+      error.name = 'NotFound';
+      throw error;
     }
 
     return user;
@@ -60,6 +64,11 @@ class UserService {
   async setUser(_id: string, update: Partial<UserInfo>): Promise<UserData> {
     // 업데이트 진행
     const updatedUser = await User.findOneAndUpdate({ _id }, update, { returnOriginal: false });
+    if (!updatedUser) {
+      const error = new Error('업데이트에 실패하였습니다.');
+      error.name = 'NotFound';
+      throw error;
+    }
     return updatedUser;
   }
 
@@ -68,7 +77,9 @@ class UserService {
 
     // 삭제에 실패한 경우, 에러 메시지 반환
     if (deletedCount === 0) {
-      throw new Error(`${_id} 사용자의 삭제에 실패하였습니다`);
+      const error = new Error(`${_id} 사용자의 삭제에 실패하였습니다`);
+      error.name = 'NotFound';
+      throw error;
     }
 
     return { result: 'success' };

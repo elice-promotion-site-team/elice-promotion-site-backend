@@ -33,7 +33,6 @@ export const google = new Strategy(
     try {
       const user = await findOrCreateUser(name!, email!);
       done(null, {
-        shortId: user.shortId,
         email: user.email,
         name: user.name,
       });
