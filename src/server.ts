@@ -3,9 +3,10 @@ import cors from 'cors';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import 'dotenv/config';
-import { guestbookRouter, userRouter, authRouter } from './routes';
+import { guestbookRouter, userRouter, authRouter, chatRouter } from './routes';
 import { errorHandler, getUserFromJWT } from './middlewares';
 import { usePassport } from './passport';
+import webSocket from './socket';
 
 usePassport();
 const app = express();
@@ -28,7 +29,11 @@ app.use(getUserFromJWT);
 app.use('/api', guestbookRouter);
 app.use('/api', userRouter);
 app.use('/auth', authRouter);
+app.use('/chat', chatRouter);
 
 app.use(errorHandler);
 
-app.listen(PORT);
+const server = app.listen(PORT, () => console.log(`server is running ${PORT}`));
+
+// // socket
+webSocket(server);
