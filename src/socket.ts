@@ -14,7 +14,6 @@ function webSocket(server: http.Server) {
 
   // socket 연결중
   io.sockets.on('connection', (socket: any) => {
-    console.log(typeof socket);
     console.log('socket 접속');
     // 새로운 접속자 발생
     socket.on('newUser', (newUser: string) => {
