@@ -1,3 +1,4 @@
 export * from './api';
 export * from './auth';
-export * from './chat-router';
+export * from './chat';
+export * from './quiz';

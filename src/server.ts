@@ -3,7 +3,7 @@ import cors from 'cors';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
 import 'dotenv/config';
-import { apiRouter, authRouter, chatRouter } from './routes';
+import { apiRouter, authRouter, chatRouter, quizRouter } from './routes';
 import { errorHandler, getUserFromJWT } from './middlewares';
 import { usePassport } from './passport';
 import webSocket from './socket';
@@ -29,6 +29,7 @@ app.use(getUserFromJWT);
 app.use('/api', apiRouter);
 app.use('/auth', authRouter);
 app.use('/chat', chatRouter);
+app.use('/quiz', quizRouter);
 
 app.use(errorHandler);
 

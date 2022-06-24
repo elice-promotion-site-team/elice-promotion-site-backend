@@ -1,3 +1,4 @@
 export * from './guestbook';
 export * from './user';
-export * from './chat-service';
+export * from './chat';
+export * from './quiz';

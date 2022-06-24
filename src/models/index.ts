@@ -14,3 +14,4 @@ db.on('error', (error) => console.error('\nMongoDB 연결에 실패하였습니�
 export const User = mongoose.model('User', UserSchema);
 export const Guestbook = mongoose.model('Guestbook', GuestbookSchema);
 export * from './will-delete/chat-model';
+export * from './will-delete/quiz-model';
