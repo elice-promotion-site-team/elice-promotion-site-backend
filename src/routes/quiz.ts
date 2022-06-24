@@ -1,12 +1,11 @@
 // import is from '@sindresorhus/is';
-import { Router } from 'express';
-import { nextTick } from 'process';
+import { Router, Request, Response, NextFunction } from 'express';
 // import { loginRequired } from '../middlewares';
 import { quizService } from '../services';
 
 const quizRouter = Router();
 
-quizRouter.get('/quizzes', async (req, res, next) => {
+quizRouter.get('/quizzes', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const quizzes = await quizService.getQuizzes();
 
@@ -16,7 +15,7 @@ quizRouter.get('/quizzes', async (req, res, next) => {
   }
 });
 
-quizRouter.get('/:quizNumber', async (req, res, next) => {
+quizRouter.get('/:quizNumber', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const quizNumber = Number(req.params.quizNumber);
     const quizData = await quizService.getQuizDataByQuizNumber(quizNumber);
@@ -27,7 +26,7 @@ quizRouter.get('/:quizNumber', async (req, res, next) => {
   }
 });
 
-quizRouter.post('/', async (req, res, next) => {
+quizRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const quizInfo = req.body;
     const newQuiz = await quizService.addQuiz(quizInfo);
@@ -37,7 +36,7 @@ quizRouter.post('/', async (req, res, next) => {
   }
 });
 
-quizRouter.patch('/:quizNumber', async (req, res, next) => {
+quizRouter.patch('/:quizNumber', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const quizNumber = Number(req.params.quizNumber);
     const update = req.body;
