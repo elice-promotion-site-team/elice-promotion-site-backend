@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { Strategy, StrategyOptions, Profile, VerifyCallback } from 'passport-google-oauth20';
-import { User } from '../../db';
+import { User } from '../../models';
 
 const config: StrategyOptions = {
   clientID: process.env.CLIENT_ID as string, // clientId 설정하기

@@ -1,5 +1,4 @@
-import { ObjectId } from 'mongoose';
-import { User } from '../db';
+import { User } from '../models';
 
 interface UserInfo {
   email: string;
@@ -74,7 +73,6 @@ class UserService {
 
   async deleteUserData(_id: string): Promise<{ result: string }> {
     const { deletedCount } = await User.deleteOne({ _id });
-
     // 삭제에 실패한 경우, 에러 메시지 반환
     if (deletedCount === 0) {
       const error = new Error(`${_id} 사용자의 삭제에 실패하였습니다`);

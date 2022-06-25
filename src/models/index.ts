@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { UserSchema } from './schemas/user';
+import { UserSchema, GuestbookSchema } from './schemas';
 
 const DB_URL =
   process.env.MONGODB_URL ||
@@ -12,6 +12,6 @@ db.on('connected', () => console.log('정상적으로 MongoDB 서버에 연결�
 db.on('error', (error) => console.error('\nMongoDB 연결에 실패하였습니다...\n' + DB_URL + '\n' + error));
 
 export const User = mongoose.model('User', UserSchema);
-export * from './models/guestbook-model';
-export * from './models/chat-model';
-export * from './models/quiz-model';
+export const Guestbook = mongoose.model('Guestbook', GuestbookSchema);
+export * from './will-delete/chat-model';
+export * from './will-delete/quiz-model';

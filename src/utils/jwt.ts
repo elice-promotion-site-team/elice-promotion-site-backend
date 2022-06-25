@@ -1,7 +1,6 @@
 import { Response } from 'express';
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
-import { User } from '../db';
 
 export const secret = process.env.JWT_SECRET || '';
 

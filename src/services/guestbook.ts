@@ -1,33 +1,29 @@
-import { guestbookModel, GuestbookModel, GuestbookInfo, GuestbookData } from '../db';
+import { Guestbook } from '../models';
+
+interface GuestbookInfo {
+  name: string;
+  comment: string;
+}
+
+interface GuestbookData extends GuestbookInfo {
+  _id: any;
+}
 
 class GuestbookService {
-  constructor(private guestbookModel: GuestbookModel) {}
-
   async addGuestbook(guestbookInfo: GuestbookInfo): Promise<GuestbookData> {
-    // 객체 destructuring
-    const { nickname } = guestbookInfo;
-
-    // 이름 중복 확인
-    const guestbook = await this.guestbookModel.findByNickname(nickname);
-    if (guestbook) {
-      const error = new Error('이 이름은 현재 사용중입니다. 다른 이름을 입력해 주세요.');
-      error.name = 'Conflict';
-      throw error;
-    }
-
     // db에 저장
-    const createdNewGuestbook = await this.guestbookModel.create(guestbookInfo);
+    const createdNewGuestbook = await Guestbook.create(guestbookInfo);
 
     return createdNewGuestbook;
   }
 
   async getGuestbooks(): Promise<GuestbookData[]> {
-    const guestbooks = await this.guestbookModel.findAll();
+    const guestbooks = await Guestbook.find({});
     return guestbooks;
   }
 
   async getGuestbookDataById(_id: string): Promise<GuestbookData> {
-    const guestbook = await this.guestbookModel.findById(_id);
+    const guestbook = await Guestbook.findOne({ _id });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!guestbook) {
@@ -39,8 +35,8 @@ class GuestbookService {
     return guestbook;
   }
 
-  async getGuestbookDataByNickname(guestbookNickname: string): Promise<GuestbookData> {
-    const guestbook = await this.guestbookModel.findByNickname(guestbookNickname);
+  async getGuestbookDataByName(guestbookName: string): Promise<GuestbookData> {
+    const guestbook = await Guestbook.findOne({ guestbookName });
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!guestbook) {
@@ -54,23 +50,29 @@ class GuestbookService {
 
   async setGuestbook(_id: string, update: Partial<GuestbookInfo>): Promise<GuestbookData> {
     // 업데이트 진행
-    const updatedGuestbook = await this.guestbookModel.update({ _id, update });
-
+    const updatedGuestbook = await Guestbook.findOneAndUpdate({ _id }, update, { returnOriginal: false });
+    if (!updatedGuestbook) {
+      const error = new Error('업데이트에 실패하였습니다.');
+      error.name = 'NotFound';
+      throw error;
+    }
     return updatedGuestbook;
   }
 
   async deleteGuestbookData(_id: string): Promise<{ result: string }> {
-    const { deletedCount } = await this.guestbookModel.deleteById(_id);
+    const { deletedCount } = await Guestbook.deleteOne({ _id });
 
     // 삭제에 실패한 경우, 에러 메시지 반환
     if (deletedCount === 0) {
-      throw new Error(`${_id} 방명록의 삭제에 실패하였습니다`);
+      const error = new Error(`${_id} 방명록의 삭제에 실패하였습니다`);
+      error.name = 'NotFound';
+      throw error;
     }
 
     return { result: 'success' };
   }
 }
 
-const guestbookService = new GuestbookService(guestbookModel);
+const guestbookService = new GuestbookService();
 
 export { guestbookService };

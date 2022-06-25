@@ -2,7 +2,7 @@ import { Schema } from 'mongoose';
 
 const GuestbookSchema = new Schema(
   {
-    nickname: {
+    name: {
       type: String,
       required: true,
     },

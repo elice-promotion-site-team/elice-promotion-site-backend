@@ -1,4 +1,4 @@
-import { chatModel, ChatModel, ChatInfo, ChatData } from '../db';
+import { chatModel, ChatModel, ChatInfo, ChatData } from '../models';
 
 class ChatService {
   constructor(private chatModel: ChatModel) {}
