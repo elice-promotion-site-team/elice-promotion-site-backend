@@ -1,7 +1,5 @@
-// import is from '@sindresorhus/is';
 import { Router, Request, Response, NextFunction } from 'express';
-// import { loginRequired } from '../middlewares';
-import { quizService } from '../services';
+import { quizService } from '../../services';
 
 const quizRouter = Router();
 
