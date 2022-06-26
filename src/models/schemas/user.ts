@@ -19,10 +19,9 @@ const UserSchema = new Schema(
       required: true,
       default: false,
     },
-    solved: {
+    corrected: {
       type: Number,
-      required: true,
-      default: 0,
+      required: false,
     },
   },
   {

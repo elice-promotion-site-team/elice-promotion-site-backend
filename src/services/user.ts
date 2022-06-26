@@ -4,6 +4,8 @@ interface UserInfo {
   email: string;
   name?: string;
   password: string;
+  isSolved: boolean;
+  corrected?: number;
 }
 
 interface UserData extends UserInfo {
@@ -62,6 +64,22 @@ class UserService {
 
   async setUser(_id: string, update: Partial<UserInfo>): Promise<UserData> {
     // 업데이트 진행
+    const updatedUser = await User.findOneAndUpdate({ _id }, update, { returnOriginal: false });
+    if (!updatedUser) {
+      const error = new Error('업데이트에 실패하였습니다.');
+      error.name = 'NotFound';
+      throw error;
+    }
+    return updatedUser;
+  }
+
+  async setQuizInfoOfUser(_id: string, update: Partial<UserInfo>): Promise<UserData> {
+    // 퀴즈 맞춘 개수 업데이트 진행
+    const user = await User.findOne({ _id });
+    if (user?.isSolved === true) {
+      return user;
+    }
+
     const updatedUser = await User.findOneAndUpdate({ _id }, update, { returnOriginal: false });
     if (!updatedUser) {
       const error = new Error('업데이트에 실패하였습니다.');

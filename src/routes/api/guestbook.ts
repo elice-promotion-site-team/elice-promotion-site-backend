@@ -1,9 +1,9 @@
-import { Router } from 'express';
+import { NextFunction, Request, Response, Router } from 'express';
 import { guestbookService } from '../../services';
 
 const guestbookRouter = Router();
 
-guestbookRouter.post('/', async (req, res, next) => {
+guestbookRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const guestbookInfo = req.body;
     // 위 데이터를 방명록 db에 추가하기
@@ -14,7 +14,7 @@ guestbookRouter.post('/', async (req, res, next) => {
   }
 });
 
-guestbookRouter.get('/list', async (req, res, next) => {
+guestbookRouter.get('/list', async (req: Request, res: Response, next: NextFunction) => {
   try {
     // 전체 방명록 목록을 얻음
     const guestbooks = await guestbookService.getGuestbooks();
@@ -25,7 +25,7 @@ guestbookRouter.get('/list', async (req, res, next) => {
   }
 });
 
-guestbookRouter.get('/:_id', async (req, res, next) => {
+guestbookRouter.get('/:_id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const _id = req.params._id;
     const guestbookData = await guestbookService.getGuestbookDataById(_id);
@@ -36,7 +36,7 @@ guestbookRouter.get('/:_id', async (req, res, next) => {
   }
 });
 
-guestbookRouter.patch('/:_id', async (req, res, next) => {
+guestbookRouter.patch('/:_id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     // req (request) 에서 데이터 가져오기
     const _id = req.params._id;
@@ -51,7 +51,7 @@ guestbookRouter.patch('/:_id', async (req, res, next) => {
   }
 });
 
-guestbookRouter.delete('/:_id', async (req, res, next) => {
+guestbookRouter.delete('/:_id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const _id = req.params._id;
     const deleteResult = await guestbookService.deleteGuestbookData(_id);
