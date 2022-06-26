@@ -1,6 +1,11 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { quizService } from '../../services';
 
+interface QuizUpdate {
+  quizNumber: number;
+  result: boolean;
+}
+
 const quizRouter = Router();
 
 quizRouter.get('/quizzes', async (req: Request, res: Response, next: NextFunction) => {
@@ -34,12 +39,14 @@ quizRouter.post('/', async (req: Request, res: Response, next: NextFunction) => 
   }
 });
 
-quizRouter.patch('/:quizNumber', async (req: Request, res: Response, next: NextFunction) => {
+quizRouter.patch('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const quizNumber = Number(req.params.quizNumber);
-    const update = req.body;
+    // quiz = {quizNumber: 1, corrected: true || false};
+    const update = req.body; // 배열
+    const updatedQuiz = update.map(async (quiz: QuizUpdate) => {
+      await quizService.setQuiz(quiz.quizNumber, quiz.result);
+    });
 
-    const updatedQuiz = await quizService.setQuiz(quizNumber, update);
     res.status(200).json(updatedQuiz);
   } catch (error) {
     next(error);

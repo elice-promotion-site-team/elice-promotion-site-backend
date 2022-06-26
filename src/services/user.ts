@@ -5,6 +5,7 @@ interface UserInfo {
   name?: string;
   password: string;
   isSolved: boolean;
+  score?: number;
   corrected?: number;
 }
 
@@ -79,7 +80,7 @@ class UserService {
     if (user?.isSolved === true) {
       return user;
     }
-
+    console.log(update);
     const updatedUser = await User.findOneAndUpdate({ _id }, update, { returnOriginal: false });
     if (!updatedUser) {
       const error = new Error('업데이트에 실패하였습니다.');

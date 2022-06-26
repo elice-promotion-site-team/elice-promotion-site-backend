@@ -19,6 +19,10 @@ const UserSchema = new Schema(
       required: true,
       default: false,
     },
+    score: {
+      type: Number,
+      required: false,
+    },
     corrected: {
       type: Number,
       required: false,
