@@ -1,9 +1,9 @@
-import { Router } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import { userService } from '../../services';
 
 const userRouter = Router();
 
-userRouter.post('/', async (req, res, next) => {
+userRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userInfo = req.body;
     // 위 데이터를 사용자 db에 추가하기
@@ -14,7 +14,7 @@ userRouter.post('/', async (req, res, next) => {
   }
 });
 
-userRouter.get('/list', async (req, res, next) => {
+userRouter.get('/list', async (req: Request, res: Response, next: NextFunction) => {
   try {
     // 전체 사용자 목록을 얻음
     const users = await userService.getUsers();
@@ -25,7 +25,7 @@ userRouter.get('/list', async (req, res, next) => {
   }
 });
 
-userRouter.get('/:_id', async (req, res, next) => {
+userRouter.get('/:_id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const _id = req.params._id;
     const userData = await userService.getUserDataById(_id);
@@ -36,7 +36,7 @@ userRouter.get('/:_id', async (req, res, next) => {
   }
 });
 
-userRouter.patch('/:_id', async (req, res, next) => {
+userRouter.patch('/:_id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const _id = req.params._id;
     const update = req.body;
@@ -50,7 +50,7 @@ userRouter.patch('/:_id', async (req, res, next) => {
   }
 });
 
-userRouter.delete('/:_id', async (req, res, next) => {
+userRouter.delete('/:_id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const _id = req.params._id;
     const deleteResult = await userService.deleteUserData(_id);
