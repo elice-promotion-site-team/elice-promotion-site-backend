@@ -1,12 +1,13 @@
 import { Guestbook } from '../models';
+import { Schema, Types } from 'mongoose';
 
 interface GuestbookInfo {
-  name: string;
+  user: Schema.Types.ObjectId;
   comment: string;
 }
 
 interface GuestbookData extends GuestbookInfo {
-  _id: any;
+  _id: Types.ObjectId;
 }
 
 class GuestbookService {
@@ -28,19 +29,6 @@ class GuestbookService {
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!guestbook) {
       const error = new Error('해당 id의 방명록이 없습니다. 다시 한 번 확인해 주세요.');
-      error.name = 'NotFound';
-      throw error;
-    }
-
-    return guestbook;
-  }
-
-  async getGuestbookDataByName(guestbookName: string): Promise<GuestbookData> {
-    const guestbook = await Guestbook.findOne({ guestbookName });
-
-    // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (!guestbook) {
-      const error = new Error('해당 이름의 방명록이 없습니다. 다시 한 번 확인해 주세요.');
       error.name = 'NotFound';
       throw error;
     }
