@@ -45,30 +45,32 @@ class QuizService {
     return quiz;
   }
 
-  async setQuiz(quizNumber: any, result: Boolean): Promise<QuizData> {
+  async setQuiz(quizNumber: number, result: Boolean): Promise<QuizData> {
     // 업데이트 진행
     const quiz = await this.getQuizDataByQuizNumber(quizNumber);
 
-    const corrected = quiz?.corrected;
-    const sovled = quiz?.solved;
+    const corrected = quiz.corrected;
+    const solved = quiz.solved;
 
     if (result === false) {
-      const update: Partial<QuizInfo> = { solved: sovled + 1 };
+      const update: Partial<QuizInfo> = { solved: solved + 1 };
       const updatedQuiz = await Quiz.findOneAndUpdate({ quizNumber }, update, { returnOriginal: false });
       if (!updatedQuiz) {
         const error = new Error('업데이트에 실패하였습니다.');
         error.name = 'NotFound';
         throw error;
       }
+
       return updatedQuiz;
     } else {
-      const update: Partial<QuizInfo> = { solved: sovled + 1, corrected: corrected + 1 };
+      const update: Partial<QuizInfo> = { solved: solved + 1, corrected: corrected + 1 };
       const updatedQuiz = await Quiz.findOneAndUpdate({ quizNumber }, update, { returnOriginal: false });
       if (!updatedQuiz) {
         const error = new Error('업데이트에 실패하였습니다.');
         error.name = 'NotFound';
         throw error;
       }
+
       return updatedQuiz;
     }
   }

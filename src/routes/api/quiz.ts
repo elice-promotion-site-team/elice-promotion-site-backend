@@ -41,12 +41,13 @@ quizRouter.post('/', async (req: Request, res: Response, next: NextFunction) => 
 
 quizRouter.patch('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    // quiz = {quizNumber: 1, corrected: true || false};
-    const update: '무슨타입이지?' = req.body; // 배열
-    console.log('업데이트', update);
-    const updatedQuiz = update.map(async (quiz: QuizUpdate) => {
-      await quizService.setQuiz(quiz.quizNumber, quiz.result);
-    });
+    const { update } = req.body;
+    let updatedQuiz = [];
+    for (let i = 0; i < update.length; i++) {
+      const { quizNumber, result } = update[i];
+      const updated = await quizService.setQuiz(quizNumber, result);
+      updatedQuiz.push(updated);
+    }
 
     res.status(200).json(updatedQuiz);
   } catch (error) {
