@@ -2,7 +2,8 @@ import { Guestbook } from '../models';
 import { Schema, Types } from 'mongoose';
 
 interface GuestbookInfo {
-  user: Schema.Types.ObjectId;
+  userId: Schema.Types.ObjectId;
+  name: string;
   comment: string;
 }
 
