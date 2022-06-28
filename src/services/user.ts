@@ -1,13 +1,14 @@
 import { User } from '../models';
+import { Types } from 'mongoose';
 
 interface UserInfo {
   email: string;
-  name?: string;
+  name: string;
   password: string;
 }
 
 interface UserData extends UserInfo {
-  _id: any;
+  _id: Types.ObjectId;
 }
 
 class UserService {
@@ -40,19 +41,6 @@ class UserService {
     // db에서 찾지 못한 경우, 에러 메시지 반환
     if (!user) {
       const error = new Error('해당 id의 사용자가 없습니다. 다시 한 번 확인해 주세요.');
-      error.name = 'NotFound';
-      throw error;
-    }
-
-    return user;
-  }
-
-  async getUserDataByNickname(userNickname: string): Promise<UserData> {
-    const user = await User.findOne({ userNickname });
-
-    // db에서 찾지 못한 경우, 에러 메시지 반환
-    if (!user) {
-      const error = new Error('해당 이름의 사용자가 없습니다. 다시 한 번 확인해 주세요.');
       error.name = 'NotFound';
       throw error;
     }
