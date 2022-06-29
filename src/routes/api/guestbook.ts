@@ -36,7 +36,7 @@ guestbookRouter.get('/:_id', async (req: Request, res: Response, next: NextFunct
   }
 });
 
-guestbookRouter.patch('/:_id', async (req: Request, res: Response, next: NextFunction) => {
+guestbookRouter.put('/:_id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     // req (request) 에서 데이터 가져오기
     const _id = req.params._id;
