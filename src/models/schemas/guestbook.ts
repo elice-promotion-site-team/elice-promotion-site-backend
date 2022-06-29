@@ -2,6 +2,11 @@ import { Schema } from 'mongoose';
 
 const GuestbookSchema = new Schema(
   {
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: 'users',
+      required: true,
+    },
     name: {
       type: String,
       required: true,
