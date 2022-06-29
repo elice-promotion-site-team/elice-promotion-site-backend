@@ -7,11 +7,6 @@ const QuizSchema = new Schema(
       required: true,
       unique: true,
     },
-    quizName: {
-      type: String,
-      required: true,
-      default: '연습 문제',
-    },
     question: {
       type: String,
       required: true,
