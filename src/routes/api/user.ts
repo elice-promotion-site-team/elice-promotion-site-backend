@@ -36,7 +36,18 @@ userRouter.get('/:_id', async (req: Request, res: Response, next: NextFunction) 
   }
 });
 
+userRouter.get('/quiz/ranking', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const users = await userService.getRanking();
+
+    res.status(200).json(users);
+  } catch (error) {
+    next(error);
+  }
+});
+
 userRouter.put('/:_id', async (req: Request, res: Response, next: NextFunction) => {
+
   try {
     const _id = req.params._id;
     const update = req.body;
@@ -50,7 +61,7 @@ userRouter.put('/:_id', async (req: Request, res: Response, next: NextFunction) 
   }
 });
 
-userRouter.patch('/:_id/quiz', async (req: Request, res: Response, next: NextFunction) => {
+userRouter.put('/:_id/quiz', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const _id = req.params._id;
     const update = req.body;
