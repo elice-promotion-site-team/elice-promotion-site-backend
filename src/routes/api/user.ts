@@ -50,6 +50,20 @@ userRouter.patch('/:_id', async (req: Request, res: Response, next: NextFunction
   }
 });
 
+userRouter.patch('/:_id/quiz', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const _id = req.params._id;
+    const update = req.body;
+
+    // 사용자 퀴즈 정보를 업데이트함.
+    const updatedUser = await userService.setQuizInfoOfUser(_id, update);
+
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    next(error);
+  }
+});
+
 userRouter.delete('/:_id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const _id = req.params._id;

@@ -15,6 +15,19 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
+    isSolved: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    score: {
+      type: Number,
+      required: false,
+    },
+    corrected: {
+      type: Number,
+      required: false,
+    },
   },
   {
     collection: 'users',
