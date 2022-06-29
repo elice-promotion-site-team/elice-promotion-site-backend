@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(cookieParser());
 
-const PORT = process.env.SERVER_PORT;
+const PORT = process.env.PORT;
 
 app.use(passport.initialize());
 
