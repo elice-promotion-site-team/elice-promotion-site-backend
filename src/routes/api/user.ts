@@ -60,7 +60,7 @@ userRouter.patch('/:_id', async (req: Request, res: Response, next: NextFunction
   }
 });
 
-userRouter.patch('/:_id/quiz', async (req: Request, res: Response, next: NextFunction) => {
+userRouter.put('/:_id/quiz', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const _id = req.params._id;
     const update = req.body;
