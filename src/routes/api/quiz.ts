@@ -39,7 +39,7 @@ quizRouter.post('/', async (req: Request, res: Response, next: NextFunction) => 
   }
 });
 
-quizRouter.patch('/', async (req: Request, res: Response, next: NextFunction) => {
+quizRouter.put('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { update } = req.body;
     let updatedQuiz = [];
