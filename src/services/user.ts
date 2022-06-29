@@ -51,6 +51,19 @@ class UserService {
     return user;
   }
 
+  async getRanking(): Promise<UserData[]> {
+    const users = await User.find({ isSolved: true });
+
+    // db에서 찾지 못한 경우, 에러 메시지 반환
+    if (!users) {
+      const error = new Error('랭킹을 불러올 수 없습니다. 잠시 후 다시 시도해 주세요.');
+      error.name = 'NotFound';
+      throw error;
+    }
+
+    return users;
+  }
+
   async setUser(_id: string, update: Partial<UserInfo>): Promise<UserData> {
     // 업데이트 진행
     const updatedUser = await User.findOneAndUpdate({ _id }, update, { returnOriginal: false });
