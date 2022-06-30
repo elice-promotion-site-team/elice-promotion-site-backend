@@ -2,14 +2,22 @@ import { Quiz } from '../models';
 import { Types, Document } from 'mongoose';
 interface QuizInfo {
   quizNumber: number;
-  quizName: string;
+  question: string;
+  example: Array<string>;
+  answer: number;
+  level: string;
+  commentary?: string;
   corrected: number;
   solved: number;
 }
 
 interface QuizData extends Document<Types.ObjectId> {
   quizNumber: number;
-  quizName: string;
+  question: string;
+  example: Array<string>;
+  answer: number;
+  level: string;
+  commentary?: string;
   corrected: number;
   solved: number;
 }
@@ -45,16 +53,47 @@ class QuizService {
     return quiz;
   }
 
-  async setQuiz(quizNumber: number, update: Partial<QuizInfo>): Promise<QuizData> {
+  async setQuiz(quizNumber: number, result: Boolean): Promise<QuizData> {
     // 업데이트 진행
+    const quiz = await this.getQuizDataByQuizNumber(quizNumber);
 
-    const updatedQuiz = await Quiz.findOneAndUpdate({ quizNumber }, update, { returnOriginal: false });
-    if (!updatedQuiz) {
-      const error = new Error('업데이트에 실패하였습니다.');
+    const corrected = quiz.corrected;
+    const solved = quiz.solved;
+
+    if (result === false) {
+      const update: Partial<QuizInfo> = { solved: solved + 1 };
+      const updatedQuiz = await Quiz.findOneAndUpdate({ quizNumber }, update, { returnOriginal: false });
+      if (!updatedQuiz) {
+        const error = new Error('업데이트에 실패하였습니다.');
+        error.name = 'NotFound';
+        throw error;
+      }
+
+      return updatedQuiz;
+    } else {
+      const update: Partial<QuizInfo> = { solved: solved + 1, corrected: corrected + 1 };
+      const updatedQuiz = await Quiz.findOneAndUpdate({ quizNumber }, update, { returnOriginal: false });
+      if (!updatedQuiz) {
+        const error = new Error('업데이트에 실패하였습니다.');
+        error.name = 'NotFound';
+        throw error;
+      }
+
+      return updatedQuiz;
+    }
+  }
+
+  async deleteQuiz(quizNumber: number): Promise<{ result: string }> {
+    const { deletedCount } = await Quiz.deleteOne({ quizNumber });
+
+    // 삭제에 실패한 경우, 에러 메시지 반환
+    if (deletedCount === 0) {
+      const error = new Error(`${quizNumber} 방명록의 삭제에 실패하였습니다`);
       error.name = 'NotFound';
       throw error;
     }
-    return updatedQuiz;
+
+    return { result: 'success' };
   }
 }
 
