@@ -2,14 +2,22 @@ import { Quiz } from '../models';
 import { Types, Document } from 'mongoose';
 interface QuizInfo {
   quizNumber: number;
-  quizName: string;
+  question: string;
+  example: Array<string>;
+  answer: number;
+  level: string;
+  commentary?: string;
   corrected: number;
   solved: number;
 }
 
 interface QuizData extends Document<Types.ObjectId> {
   quizNumber: number;
-  quizName: string;
+  question: string;
+  example: Array<string>;
+  answer: number;
+  level: string;
+  commentary?: string;
   corrected: number;
   solved: number;
 }

@@ -7,10 +7,25 @@ const QuizSchema = new Schema(
       required: true,
       unique: true,
     },
-    quizName: {
+    question: {
       type: String,
       required: true,
-      default: '연습 문제',
+    },
+    example: {
+      type: Array,
+      required: true,
+    },
+    answer: {
+      type: Number,
+      required: true,
+    },
+    level: {
+      type: String,
+      required: true,
+    },
+    commentary: {
+      type: String,
+      required: false,
     },
     corrected: {
       type: Number,
