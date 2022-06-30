@@ -1,8 +1,11 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import passport from 'passport';
 import { setUserToken, getUserDataFromToken } from '../utils/jwt';
+import 'dotenv/config';
 
 const authRouter = Router();
+
+const DOMAIN = process.env.DOMAIN || '';
 
 authRouter.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
@@ -12,7 +15,7 @@ authRouter.get(
   (req: Request, res: Response, next: NextFunction) => {
     if (req.user) {
       const token = setUserToken(req.user);
-      res.cookie('token', token).status(200).redirect('/');
+      res.cookie('token', token).redirect(DOMAIN);
     } else {
       res.status(404).json();
     }
